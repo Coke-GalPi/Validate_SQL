@@ -1,5 +1,6 @@
 /*
-Porcentajes de vuelos por tipo de retraso entre los años 2019-2023.
+    KPI 13:
+    Porcentajes de vuelos por tipo de retraso entre los años 2019-2023.
 */
 
 select avg(hv.arr_delay)  from hecho_vuelos hv where id_type_delay = 7 and  code_airline = 'WN'

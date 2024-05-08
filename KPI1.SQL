@@ -1,5 +1,6 @@
 /*
-Entrega los promedios completos
+    KPI 1:
+    Porcentaje de vuelos retrasados por aerolínea entre los años 2019-2023.
 */
 
 SELECT 
@@ -19,26 +20,3 @@ JOIN
 GROUP BY 
     AIRLINES.CODE_AIRLINE, 
     YEARS.ID_YEAR;
-
-/*
-Busca los promedios de retrasos de cada aerolinea por año
-*/
-
-SELECT 
-    AIRLINES.airline, 
-    YEARS.ID_YEAR, 
-    AVG(CASE WHEN HECHO_VUELOS.arr_delay > 0 THEN 1 ELSE 0 END) as Promedio_Retrasos
-FROM 
-    HECHO_VUELOS
-JOIN 
-    AIRLINES ON HECHO_VUELOS.CODE_AIRLINE = AIRLINES.CODE_AIRLINE
-JOIN 
-    DAYS ON HECHO_VUELOS.ID_DAY = DAYS.ID_DAY
-JOIN 
-    MONTHS ON DAYS.ID_MONTH = MONTHS.ID_MONTH
-JOIN 
-    YEARS ON MONTHS.ID_YEAR = YEARS.ID_YEAR
-GROUP BY 
-    AIRLINES.CODE_AIRLINE, 
-    YEARS.ID_YEAR;
-where YEARS.FL_YEAR = ;
