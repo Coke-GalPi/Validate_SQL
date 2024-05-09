@@ -1,5 +1,5 @@
 /*
-    KPI 19:
+    KPI 19: revisar listo 
     Tiempo promedio de rendimiento en el despegue de los vuelos 
     realizados por aerolínea entre los años 2019-2023
 */

@@ -1,5 +1,5 @@
 /*
-    KPI 12:
+    KPI 12: listo
     Ratio de porcentajes de vuelos realizados por ruta y que sufrieron
     cancelaciones por aerolínea entre los años 2019-2023
 */

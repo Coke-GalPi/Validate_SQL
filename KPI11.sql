@@ -1,5 +1,5 @@
 /*
-    KPI 11:
+    KPI 11: listo
     Tasa de crecimiento de tiempos promedios de tipo de retraso de los 
     vuelos realizados por cada aerolínea entre los años 2019-2023.
 */
