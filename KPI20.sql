@@ -2,6 +2,9 @@
     KPI 20: revisar
     Tiempos promedios de los vuelos con retraso en el aterrizaje 
     por Estado de destino y por aerolínea entre los años 2019-2023.
+
+    Tiempos promedios de los vuelos con retraso en el aterrizaje 
+    por Estado de destino y por aerolínea entre los años 2019-2023.
 */
 
 SELECT 

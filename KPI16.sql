@@ -1,0 +1,28 @@
+/*
+    KPI 16:
+    Tasa de crecimiento de los tiempos de retraso totales por aerolínea 
+    y Estado entre los años 2019-2023.
+*/
+
+SELECT 
+    STATES.name_state, 
+    AIRLINES.airline, 
+    YEARS.fl_year,
+    (
+        CAST((SUM(HECHO_VUELOS.arr_delay) - LAG(SUM(HECHO_VUELOS.arr_delay), 1) OVER (PARTITION BY STATES.name_state, AIRLINES.airline ORDER BY YEARS.fl_year)) AS DECIMAL(10, 2)) /
+        NULLIF(LAG(SUM(HECHO_VUELOS.arr_delay), 1) OVER (PARTITION BY STATES.name_state, AIRLINES.airline ORDER BY YEARS.fl_year), 0)
+    )  AS tasa_crecimiento
+FROM
+    HECHO_VUELOS
+JOIN AIRLINES ON HECHO_VUELOS.CODE_AIRLINE = AIRLINES.CODE_AIRLINE
+JOIN CITIES ON HECHO_VUELOS.CODE_CITY = CITIES.CODE_CITY
+JOIN STATES ON CITIES.CODE_STATE = STATES.CODE_STATE
+JOIN DAYS ON HECHO_VUELOS.ID_DAY = DAYS.ID_DAY
+JOIN MONTHS ON DAYS.ID_MONTH = MONTHS.ID_MONTH
+JOIN YEARS ON MONTHS.ID_YEAR = YEARS.ID_YEAR
+WHERE 
+    YEARS.ID_YEAR BETWEEN 2019 AND 2023
+GROUP BY
+    STATES.name_state, 
+    AIRLINES.airline,
+    YEARS.fl_year;
