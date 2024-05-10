@@ -1,8 +1,21 @@
 /*
-    KPI 8: Por revisar funciones
-    Ratio de la tasa de crecimiento de vuelos que sufrieron tipos de 
-    retraso por estación del año.
+    KPI 8: revisar
+    Índice de Eficiencia de Operaciones Estacionales (IEOE)
 */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 select 
     months.fl_season,

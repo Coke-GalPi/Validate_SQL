@@ -1,25 +1,24 @@
 /*
     KPI 20: revisar
-    Tasa de crecimiento de los tiempos de aterrizaje de los vuelos 
-    puntuales en las ciudades de destino por aerolínea. 
+    Tiempos promedios de los vuelos con retraso en el aterrizaje 
+    por Estado de destino y por aerolínea entre los años 2019-2023.
 */
 
-select 
-    airlines.airline,
-    (avg(hecho_vuelos.arr_delay) - avg(hecho_vuelos.dep_delay)) / avg(hecho_vuelos.dep_delay) * 100 as tasa_crecimiento_tiempo_aterrizaje
-from   
-    hecho_vuelos
-join
-    cities on hecho_vuelos.code_dest_city = cities.code_city
-join
-    airlines on hecho_vuelos.code_airline = airlines.code_airline
-join    
-    days on hecho_vuelos.id_day = days.id_day   
-join
-    months on days.id_month = months.id_month
-join
-    years on months.id_year = years.id_year
-where 
-    hecho_vuelos.arr_delay > 0
-group by
-    airlines.airline;
+SELECT 
+    STATES.state, 
+    AIRLINES.airline, 
+    AVG(HECHO_VUELOS.arr_delay) as Promedio_Retrasos 
+FROM
+    HECHO_VUELOS    
+JOIN
+    AIRLINES ON HECHO_VUELOS.CODE_AIRLINE = AIRLINES.CODE_AIRLINE
+JOIN
+    STATES ON HECHO_VUELOS.CODE_STATE_DEST = STATES.CODE_STATE
+JOIN    
+    DAYS ON HECHO_VUELOS.ID_DAY = DAYS.ID_DAY
+JOIN    
+    MONTHS ON DAYS.ID_MONTH = MONTHS.ID_MONTH
+JOIN    
+    YEARS ON MONTHS.ID_YEAR = YEARS.ID_YEAR
+WHERE 
+    YEARS.ID_YEAR BETWEEN 2019 AND 2023
