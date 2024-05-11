@@ -1,5 +1,5 @@
 /*
-    KPI 13: listo
+    KPI 13: 
     Promedio de vuelos por tipo de retraso entre los años 2019-2023.
 */
 

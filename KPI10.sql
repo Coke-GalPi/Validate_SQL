@@ -1,5 +1,5 @@
 /*
-    KPI 10: listo
+    KPI 10: 
     Porcentaje de la varianza de los vuelos retrasados por tipo de retraso y aerolínea.
 */
 

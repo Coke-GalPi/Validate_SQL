@@ -1,5 +1,5 @@
 /*
-    KPI 9: Listo
+    KPI 9: 
     Ratio de Variabilidad de Puntualidad por Ruta y Estación del Año.
 */
 

@@ -1,13 +1,15 @@
 /*
-    KPI 2: revisar por x2
-    Tasa de decrecimiento de los vuelos completados con éxito 
+    KPI 2: BORRAR
+    Tasa de crecimiento de los vuelos completados con éxito 
     por aerolínea entre los años 2019-2023.
 */
 
 select 
     airlines.airline,
-    cast((sum(hecho_vuelos.id_state_flights) - lag(sum(hecho_vuelos.id_state_flights)) over (order by )
-    / lag(sum(hecho_vuelos.id_state_flights)) over (order by years.fl_year) as decimal(10, 2)) as growth_rate1
+    (
+        (COUNT(hecho_vuelos.id_state_flights = 1) - count(hecho_vuelos.id_state_flights = 1 anño anterior)) /  
+        count(hecho_vuelos.id_state_flights = 1 anño anterior)
+    ) as growth_rate1
 from hecho_vuelos
 
 join airlines on hecho_vuelos.code_airline = airlines.code_airline

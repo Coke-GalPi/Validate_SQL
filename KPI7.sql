@@ -1,5 +1,5 @@
 /* 
-    KPI 7: listo
+    KPI 7: LISTO
     Tasa de crecimiento de vuelos por estación del año entre los años 2019-2023.
 */
 

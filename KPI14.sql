@@ -1,5 +1,5 @@
 /*
-    KPI 14: revisar se parece a la uno por no
+    KPI 14: 
     Porcentajes de vuelos por tipo de retraso entre los años 2019-2023.
 */
 

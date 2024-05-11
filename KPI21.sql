@@ -1,5 +1,5 @@
 /*
-    KPI 19: revisar listo 
+    KPI 19: 
     Tasa de los tiempos de retraso totales en el despegue de 
     los vuelos por aerolínea.
 */

@@ -1,5 +1,5 @@
 /*
-    KPI 22: revisar
+    KPI 22: 
     Tasa de crecimiento de los tiempos de aterrizaje de los vuelos 
     puntuales en las ciudades de destino por aerolínea. 
 */
