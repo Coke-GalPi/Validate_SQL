@@ -1,27 +1,37 @@
 /*
-    KPI 18:
-    Índice de Eficiencia de Tiempo de Vuelo por Estado y Aerolínea (IETVEA)
+    KPI 18: LISTO
+    Tiempo promedio de retraso por vuelos que sufrieron demoras en 
+    el despegue según ciudad.
 */
 
-SELECT 
-    AIRLINES.airline,
-    STATES.name_state, 
-    YEARS.fl_year,
-    (
-        CAST(SUM(HECHO_VUELOS.ELAPSED_TIME) AS DECIMAL(10, 2)) /
-        SUM(HECHO_VUELOS.ID_VUELO)
-    ) AS ietvea
-FROM
-    HECHO_VUELOS
-JOIN AIRLINES ON HECHO_VUELOS.CODE_AIRLINE = AIRLINES.CODE_AIRLINE
-JOIN CITIES ON HECHO_VUELOS.CODE_CITY = CITIES.CODE_CITY
-JOIN STATES ON CITIES.CODE_STATE = STATES.CODE_STATE
-JOIN DAYS ON HECHO_VUELOS.ID_DAY = DAYS.ID_DAY
-JOIN MONTHS ON DAYS.ID_MONTH = MONTHS.ID_MONTH
-JOIN YEARS ON MONTHS.ID_YEAR = YEARS.ID_YEAR
-WHERE 
-    YEARS.ID_YEAR BETWEEN 2019 AND 2023 
-GROUP BY
-    STATES.name_state, 
-    AIRLINES.airline,
-    YEARS.fl_year;
+select 
+    a.airline,
+    c.name_city,
+    td.type_delay,
+    y.fl_year,
+    case
+        when sum(case when hv.dep_delay >= 15 then 1 else 0 end) - sum(case when hv.id_state_flights = 3 then 1 else 0 end) = 0 then null
+        else (
+            sum(case when hv.time_delay > 0 then hv.time_delay else 0 end) /
+            cast(
+                sum(case when hv.dep_delay >= 15 then 1 else 0 end) - 
+                sum(case when hv.id_state_flights = 3 then 1 else 0 end)
+            as decimal(10,2))
+        )
+    end as tiempo_promedio_retraso 
+from hecho_vuelos hv
+join days d on hv.id_day = d.id_day
+join months m on d.id_month = m.id_month 
+join years y on m.id_year = y.id_year
+join cities c on hv.code_city = c.code_city
+join states s on c.code_state = s.code_state
+join airlines a on hv.code_airline = a.code_airline 
+join state_flights sf on hv.id_state_flights = sf.id_state_flights 
+join type_delays td on hv.id_type_delay = td.id_type_delay
+where 
+    y.fl_year between 2019 and 2023
+group by 
+    a.airline,
+    c.name_city,
+    td.type_delay,
+    y.fl_year;

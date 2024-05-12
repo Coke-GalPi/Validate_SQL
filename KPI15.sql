@@ -1,26 +1,38 @@
 /*
-    KPI 15:
-    Ratio de Tiempo de Vuelo en el Aire-Tiempo en Tierra por aerolínea hacia 
-    los distintos Estados de destino entre 2019-2023.
+    KPI 15: LISTO
+    Índice de Eficiencia de Desempeño por Aerolínea y Estado (IEDAE)
 */
 
-SELECT
-    AIRLINES.AIRLINE,
-    years.fl_year,
-    (SUM(hecho_vuelos.air_time)-
-    SUM(hecho_vuelos.dep_time + hecho_vuelos.taxi_on + hecho_vuelos.taxi_out + hecho_vuelos.arr_time)) AS tiempo_total
+SELECT 
+    AIRLINES.airline,
+    STATES.name_state, 
+    YEARS.fl_year,
+    (
+        (
+            CAST(SUM(CASE WHEN HECHO_VUELOS.arr_delay < 15 THEN HECHO_VUELOS.arr_delay ELSE 0 END) AS DECIMAL(14, 2)) /
+            NULLIF(SUM(HECHO_VUELOS.ID_VUELO), 0)
+        ) 
+    ) / 
+    (
+        NULLIF(
+            (
+                CAST(SUM(HECHO_VUELOS.ELAPSED_TIME) AS DECIMAL(14, 2)) /
+                NULLIF(SUM(HECHO_VUELOS.ID_VUELO), 0)
+            ),
+            0
+        )
+    ) * 100 AS IEDAE
 FROM 
-    hecho_vuelos
+    HECHO_VUELOS
 JOIN AIRLINES ON HECHO_VUELOS.CODE_AIRLINE = AIRLINES.CODE_AIRLINE
-join cities on HECHO_VUELOS.code_city = CITIES.code_city
-join STATES on CITIES.code_state = STATES.code_state
-JOIN  DAYS ON HECHO_VUELOS.ID_DAY = DAYS.ID_DAY
-JOIN  MONTHS ON DAYS.ID_MONTH = MONTHS.ID_MONTH
-JOIN  YEARS ON MONTHS.ID_YEAR = YEARS.ID_YEAR
-WHERE
-    (YEARS.ID_YEAR BETWEEN 2019 AND 2023) and
-    hecho_vuelos.id_state_flights = 1 /*and 
-    states.name_state = 'Florida'*/
+JOIN CITIES ON HECHO_VUELOS.CODE_CITY = CITIES.CODE_CITY
+JOIN STATES ON CITIES.CODE_STATE = STATES.CODE_STATE
+JOIN DAYS ON HECHO_VUELOS.ID_DAY = DAYS.ID_DAY
+JOIN MONTHS ON DAYS.ID_MONTH = MONTHS.ID_MONTH
+JOIN YEARS ON MONTHS.ID_YEAR = YEARS.ID_YEAR
+WHERE 
+    YEARS.ID_YEAR BETWEEN 2019 AND 2023
 GROUP BY
-    AIRLINES.AIRLINE,
-    years.fl_year;
+    STATES.name_state, 
+    AIRLINES.airline,
+    YEARS.fl_year;

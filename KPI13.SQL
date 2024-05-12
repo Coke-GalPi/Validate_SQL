@@ -1,25 +1,28 @@
 /*
-    KPI 13: 
-    Promedio de vuelos por tipo de retraso entre los años 2019-2023.
+    KPI 13: LISTO
+    Ratio de Tiempo de Vuelo en el Aire-Tiempo en Tierra por aerolínea hacia 
+    los distintos Estados de destino entre 2019-2023.
 */
 
-select avg(hv.arr_delay)  from hecho_vuelos hv where id_type_delay = 7 and  code_airline = 'WN'
-
-SELECT 
-    AIRLINES.airline, 
-    TYPE_DELAYS.type_delay, 
-    AVG(HECHO_VUELOS.arr_delay) as Promedio_Retrasos
+SELECT
+    AIRLINES.AIRLINE,
+    STATES.name_state,
+    years.fl_year,
+    (SUM(hecho_vuelos.air_time) /
+    CAST(SUM(hecho_vuelos.taxi_on + hecho_vuelos.taxi_out) AS DECIMAL(10,2))) AS Ratio_AIRE_TIERRA
 FROM 
-    HECHO_VUELOS
-JOIN 
-    AIRLINES ON HECHO_VUELOS.CODE_AIRLINE = AIRLINES.CODE_AIRLINE
-JOIN 
-    TYPE_DELAYS ON HECHO_VUELOS.ID_TYPE_DELAY = TYPE_DELAYS.id_type_delay
-/*
-permite buscar por airline y type_delay
-WHERE 
-    HECHO_VUELOS.ID_TYPE_DELAY = 7 
-    AND HECHO_VUELOS.CODE_AIRLINE = 'WN'*/
-GROUP BY 
-    AIRLINES.airline, 
-    TYPE_DELAYS.type_delay;
+    hecho_vuelos
+JOIN AIRLINES ON HECHO_VUELOS.CODE_AIRLINE = AIRLINES.CODE_AIRLINE
+join cities on HECHO_VUELOS.code_city = CITIES.code_city
+join STATES on CITIES.code_state = STATES.code_state
+JOIN  DAYS ON HECHO_VUELOS.ID_DAY = DAYS.ID_DAY
+JOIN  MONTHS ON DAYS.ID_MONTH = MONTHS.ID_MONTH
+JOIN  YEARS ON MONTHS.ID_YEAR = YEARS.ID_YEAR
+WHERE
+    (YEARS.ID_YEAR BETWEEN 2019 AND 2023) and
+    hecho_vuelos.id_state_flights = 1 /*and 
+    states.name_state = 'Florida'*/
+GROUP BY
+    AIRLINES.AIRLINE,
+    STATES.name_state,
+    years.fl_year;
